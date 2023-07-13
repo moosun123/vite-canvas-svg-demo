@@ -12,11 +12,14 @@ function randomColor() {
   )
 }
 
+const WIDTH = 600;
+const HEIGHT = 600;
+const COUNT = 10000;
+const RADIUS = 100;
 
 const CanvasDemo = () => {
-  const canvasDom = document.getElementById('canvas') as HTMLCanvasElement;
 
-  const drawCirle = (ctx: CanvasRenderingContext2D, WIDTH: number, HEIGHT: number, radius = 100) => {
+  const drawCirle = (ctx: CanvasRenderingContext2D, radius = RADIUS) => {
     const x = Math.random() * WIDTH
     const y = Math.random() * HEIGHT
     ctx.fillStyle = randomColor()
@@ -25,30 +28,31 @@ const CanvasDemo = () => {
     ctx.fill()
   }
 
-  const draw = (ctx: CanvasRenderingContext2D, WIDTH: number, HEIGHT: number, count = 1) => {
+  const draw = (ctx: CanvasRenderingContext2D, count = COUNT) => {
     for (let i = 0; i < count; i++) {
-      drawCirle(ctx, WIDTH, HEIGHT)
+      drawCirle(ctx)
     }
   }
 
-  const update = (ctx: CanvasRenderingContext2D, WIDTH: number, HEIGHT: number) => {
+  const update = (ctx: CanvasRenderingContext2D,) => {
     ctx.clearRect(0, 0, WIDTH, HEIGHT)
-    draw(ctx, WIDTH, HEIGHT, 20000)
-    requestAnimationFrame(() => update(ctx!, WIDTH, HEIGHT))
+    draw(ctx, 20000)
+    requestAnimationFrame(() => update(ctx!,))
   }
 
   useEffect(() => {
+    const canvasDom = document.getElementById('canvas') as HTMLCanvasElement;
+
     if (canvasDom) {
-      const WIDTH = canvasDom?.width
-      const HEIGHT = canvasDom?.height
+
       const ctx = canvasDom?.getContext('2d');
 
-      requestAnimationFrame(() => update(ctx!, WIDTH, HEIGHT))
+      requestAnimationFrame(() => update(ctx!))
     }
-  }, [canvasDom])
+  }, [])
 
 
-  return <canvas id='canvas' width={600} height={600}></canvas>
+  return <canvas id='canvas' width={WIDTH} height={HEIGHT}></canvas>
 }
 
 export default CanvasDemo

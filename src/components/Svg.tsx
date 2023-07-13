@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 
 
-const WIDTH = 500;
-const HEIGHT = 500;
-const COUNT = 1500;
-const RADIUS = 200;
+const WIDTH = 600;
+const HEIGHT = 600;
+const COUNT = 10000;
+const RADIUS = 100;
 
 
 const randomColor = () => {
@@ -12,9 +12,8 @@ const randomColor = () => {
 }
 
 const Svg = () => {
-  const root = document.querySelector("svg");
-
-  function initCircles(count = COUNT) {
+  const initCircles = (count = COUNT) => {
+    const root = document.querySelector("svg");
     if (root) {
       for (let i = 0; i < count; i++) {
         const circle = document.createElementNS(
@@ -27,7 +26,6 @@ const Svg = () => {
     }
     return []
   }
-  const circles = initCircles();
 
   function drawCircle(circle: SVGCircleElement, radius = 10) {
     const x = Math.random() * WIDTH;
@@ -39,20 +37,25 @@ const Svg = () => {
     circle?.setAttribute("fill", fillColor);
   }
 
-  function draw() {
+  function draw(circles: SVGCircleElement[]) {
     for (let i = 0; i < COUNT; i++) {
       drawCircle(circles[i], RADIUS);
     }
-    requestAnimationFrame(draw);
+    requestAnimationFrame(() => { draw(circles) });
   }
 
   useEffect(() => {
+    const root = document.querySelector("svg");
+    console.log(root, 'root');
     if (root) {
-      draw();
+      const circles = initCircles();
+      draw(circles);
     }
-  }, [root])
+  }, [])
 
-  return <svg xmlns="http://www.w3.org/2000/svg" width="500" height="500"></svg>
+  return <div>
+    <svg xmlns="http://www.w3.org/2000/svg" width={WIDTH} height={HEIGHT}></svg>
+  </div>
 }
 
 export default Svg

@@ -5,6 +5,9 @@ import {
   RouterProvider,
 } from "react-router-dom"
 import CanvasDemo from './components/Canvas.tsx'
+import OfflineCanvas from './components/optimizaComp/canvas/OfflineCanvas.tsx'
+import ReduceOrder from './components/optimizaComp/canvas/ReduceOrder.tsx'
+import RenderPart from './components/optimizaComp/canvas/RenderPart.tsx'
 import SvgDemo from './components/Svg.tsx'
 import './index.css'
 import Root from './Root.tsx'
@@ -23,6 +26,19 @@ const router = createBrowserRouter([
     path: "/svg_problem",
     element: <SvgDemo />,
   },
+  {
+    path: '/reduceOrder',
+    element: <ReduceOrder />
+  },
+  {
+    path: '/renderPart',
+    element: <RenderPart />
+  },
+  {
+    path: '/offlineCanvas',
+    element: <OfflineCanvas />
+
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

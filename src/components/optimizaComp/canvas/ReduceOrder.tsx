@@ -1,11 +1,8 @@
 import { useEffect } from "react";
 
-
-
 const ReduceOrder = () => {
-  const canvasDom = document.getElementById('charts') as HTMLCanvasElement
 
-  function generatePolygon(x, y, r, edges = 3) {
+  function generatePolygon(x, y, r, edges = 10) {
     const points = []
     const detla = 2 * Math.PI / edges;
     for (let i = 0; i < edges; i++) {
@@ -14,7 +11,6 @@ const ReduceOrder = () => {
     }
     return points
   }
-
 
   function drawAnyShape(points, ctx) {
     for (let i = 0; i < points.length; i++) {
@@ -27,6 +23,7 @@ const ReduceOrder = () => {
       ctx.closePath();
       ctx.stroke()
     }
+    requestAnimationFrame(() => drawAnyShape(points, ctx))
   }
 
   function drawAnyShape2(points, ctx) {
@@ -38,20 +35,26 @@ const ReduceOrder = () => {
     }
     ctx.closePath();
     ctx.stroke()
+    requestAnimationFrame(() => drawAnyShape2(points, ctx))
+
   }
 
 
   useEffect(() => {
+    const canvasDom = document.getElementById('charts')
+
     if (canvasDom) {
-      const points = generatePolygon(0, 0, 10);
       const ctx = canvasDom?.getContext('2d');
-      drawAnyShape(points, ctx)
+      for (let i = 0; i < 3000; i++) {
+        const points = generatePolygon(300, 300, 100 * i * 0.05 % 300);
+        // drawAnyShape(points, ctx)
+        drawAnyShape2(points, ctx)
+      }
     }
-  }, [canvasDom])
+  }, [])
 
 
-
-  return <canvas width={800} height={800} id='charts'></canvas>
+  return <canvas width={600} height={600} id='charts'></canvas>
 
 }
 
