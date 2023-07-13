@@ -23,7 +23,7 @@ const useOfflineWork = () => {
 
   }
 
-  // 监听主线程发的信息
+  // 监听主线程发的信息 
   window.onmessage = function (e) {
     if (e.data.msg == 'init') {
       console.log(e, 'e--->');
